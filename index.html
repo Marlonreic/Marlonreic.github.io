@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Marlon Reichert — interface design for sustained visual work, and the measurement behind it.">
+<style>
+  :root{color-scheme:light dark}
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  img{max-width:100%}
+  [hidden]{display:none!important}
+</style>
+<title>Marlon Reichert</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  /* Dark-first: the ground is the HUD's own #111111, biased a half-step
+     cool so the neutrals sit under the instrument blue rather than beside it. */
+  --ground:#0e1013;
+  --panel:#16191e;
+  --panel-2:#1c2027;
+  --edge:#282d36;
+  --ink:#e9ecf1;
+  --ink-2:#a7b0bd;
+  --ink-3:#6f7987;
+  --accent:#00bfff;      /* carro — the HUD's primary */
+  --moto:#3ddc4a;
+  --onibus:#ffd21f;
+  --caminhao:#ff6666;
+  --warn:#ff4d4d;
+  --hud-bg:#111111;
+  --band:rgba(0,191,255,.10);
+  --shadow:0 18px 48px rgba(0,0,0,.55);
+}
+:root[data-theme="light"]{
+  --ground:#f2f4f7;
+  --panel:#ffffff;
+  --panel-2:#eef1f5;
+  --edge:#d4dae2;
+  --ink:#12161c;
+  --ink-2:#4b5563;
+  --ink-3:#7d8794;
+  --accent:#0078a8;
+  --moto:#1f9e2c;
+  --onibus:#8a6a00;
+  --caminhao:#c23b3b;
+  --warn:#c62828;
+  --band:rgba(0,120,168,.10);
+  --shadow:0 12px 32px rgba(16,24,40,.12);
+}
+@media (prefers-color-scheme: light){
+  :root:not([data-theme="dark"]){
+    --ground:#f2f4f7;
+    --panel:#ffffff;
+    --panel-2:#eef1f5;
+    --edge:#d4dae2;
+    --ink:#12161c;
+    --ink-2:#4b5563;
+    --ink-3:#7d8794;
+    --accent:#0078a8;
+    --moto:#1f9e2c;
+    --onibus:#8a6a00;
+    --caminhao:#c23b3b;
+    --warn:#c62828;
+    --band:rgba(0,120,168,.10);
+    --shadow:0 12px 32px rgba(16,24,40,.12);
+  }
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  font-size:16px; line-height:1.65; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:0 28px 96px}
+.col{max-width:65ch}
+
+/* ---------------------------------------------------------- cabeçalho */
+header{padding:72px 0 0}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 18px;
+}
+h1{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-weight:700; font-size:clamp(2.6rem,6vw,4.2rem); line-height:1.02;
+  letter-spacing:-.025em; margin:0; text-wrap:balance;
+}
+.role{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-weight:500; font-size:clamp(1.05rem,2.2vw,1.35rem);
+  color:var(--ink-2); margin:14px 0 0; text-wrap:balance;
+}
+.meta{
+  display:flex; flex-wrap:wrap; gap:8px 18px; margin:26px 0 0; padding:0; list-style:none;
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:12.5px; color:var(--ink-3);
+}
+.meta a{color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--edge)}
+.meta a:hover,.meta a:focus-visible{color:var(--accent); border-color:var(--accent)}
+.lede{font-size:1.14rem; color:var(--ink-2); margin:34px 0 0}
+.lede strong{color:var(--ink); font-weight:600}
+
+/* ------------------------------------------------------------- seções */
+section{padding:72px 0 0}
+.sec-head{display:flex; align-items:baseline; gap:16px; margin:0 0 8px}
+.sec-num{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px;
+  color:var(--ink-3); letter-spacing:.1em; padding-top:6px; white-space:nowrap;
+}
+h2{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-weight:700; font-size:clamp(1.5rem,3.4vw,2.1rem); line-height:1.15;
+  letter-spacing:-.018em; margin:0; text-wrap:balance;
+}
+h3{
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-weight:500; font-size:1.02rem; letter-spacing:.01em;
+  margin:0 0 6px; color:var(--ink);
+}
+p{margin:16px 0 0}
+.sub{color:var(--ink-2); margin-top:14px}
+
+/* --------------------------------------------- o HUD, em escala real */
+.stage{
+  display:grid; grid-template-columns:minmax(0,1fr) 360px; gap:44px;
+  align-items:start; margin:36px 0 0;
+}
+@media (max-width:880px){ .stage{grid-template-columns:1fr} }
+
+.hud{
+  width:360px; height:400px; background:var(--hud-bg);
+  font-family:"IBM Plex Mono",Consolas,ui-monospace,monospace;
+  padding:10px; position:relative; box-shadow:var(--shadow);
+  border:1px solid #000; opacity:.94; justify-self:start;
+}
+.hud-cam{color:#fff; font-weight:600; font-size:14px; text-align:center; padding-top:2px}
+.hud-slot{color:#00bfff; font-size:12px; text-align:center; margin-top:9px;
+  font-variant-numeric:tabular-nums}
+.hud-hist{margin-top:16px; text-align:center; line-height:1.55}
+.hud-hist div{font-size:11px; transition:color .28s linear, opacity .28s linear}
+.h1{color:#808080}
+.h2{color:#c0c0c0}
+.h3{color:#ffffff; font-size:12px}
+.hud-mode{color:#ffff00; font-size:17px; font-weight:600; text-align:center; margin-top:22px}
+.hud-keys{margin-top:26px; padding-left:10px; display:grid; gap:8px}
+.hud-keys div{font-size:13px; font-weight:600; transition:opacity .2s}
+.k-carro{color:#00bfff} .k-moto{color:#00ff00}
+.k-onibus{color:#ffff00} .k-caminhao{color:#ff6666}
+.hud-keys .hit{text-shadow:0 0 12px currentColor}
+.hud-warn{color:#ff3b3b; font-size:11px; text-align:center;
+  position:absolute; left:10px; right:10px; bottom:14px; min-height:1em}
+.hud-cap{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px;
+  color:var(--ink-3); margin-top:12px; max-width:360px; line-height:1.5;
+}
+
+/* ------------------------------------------------- notas de decisão */
+.notes{display:grid; gap:2px; margin:30px 0 0; border:1px solid var(--edge); background:var(--edge)}
+.note{background:var(--panel); padding:20px 22px}
+.note h3{display:flex; align-items:center; gap:9px}
+.swatch{width:11px; height:11px; flex:0 0 auto; border-radius:2px}
+.note p{margin:6px 0 0; font-size:14.5px; color:var(--ink-2)}
+
+/* --------------------------------------------------------- números */
+.figs{display:flex; flex-wrap:wrap; gap:0; margin:30px 0 0;
+  border-top:1px solid var(--edge); border-bottom:1px solid var(--edge)}
+.fig{padding:20px 30px 20px 0; margin-right:30px; border-right:1px solid var(--edge)}
+.fig:last-child{border-right:0; margin-right:0; padding-right:0}
+.fig b{
+  display:block; font-family:Archivo,sans-serif; font-weight:700;
+  font-size:1.9rem; letter-spacing:-.02em; color:var(--ink);
+  font-variant-numeric:tabular-nums; line-height:1.1;
+}
+.fig span{
+  display:block; font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:10.5px; letter-spacing:.11em; text-transform:uppercase;
+  color:var(--ink-3); margin-top:7px;
+}
+
+/* ----------------------------------------------------- lista de fundo */
+.hist{list-style:none; padding:0; margin:26px 0 0; display:grid; gap:0}
+.hist li{
+  display:grid; grid-template-columns:150px minmax(0,1fr); gap:22px;
+  padding:17px 0; border-top:1px solid var(--edge); align-items:start;
+}
+.hist li:last-child{border-bottom:1px solid var(--edge)}
+.when{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+  color:var(--ink-3); letter-spacing:.03em; padding-top:3px;
+}
+.what b{font-weight:600; color:var(--ink)}
+.what span{display:block; color:var(--ink-2); font-size:14.5px; margin-top:3px}
+
+.skills{display:flex; flex-wrap:wrap; gap:7px; margin:24px 0 0; padding:0; list-style:none}
+.skills li{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11.5px;
+  color:var(--ink-2); border:1px solid var(--edge); padding:5px 11px;
+  background:var(--panel);
+}
+
+/* ------------------------------------------------------------- gráfico */
+.chart{margin:34px 0 0; padding:0}
+.chart figcaption{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:11px;
+  color:var(--ink-3); line-height:1.55; margin:0 0 16px; max-width:62ch;
+}
+.chart-scroll{overflow-x:auto; padding-bottom:4px}
+.chart svg{display:block; min-width:660px; max-width:100%; height:auto}
+
+footer{
+  margin-top:80px; padding-top:30px; border-top:1px solid var(--edge);
+  display:flex; flex-wrap:wrap; gap:12px 26px; align-items:baseline;
+}
+footer p{margin:0; font-size:14px; color:var(--ink-3)}
+footer a{color:var(--accent); text-decoration:none; border-bottom:1px solid transparent}
+footer a:hover,footer a:focus-visible{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important; transition:none!important} }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Florianópolis, Brazil · UTC−3 · Remote</p>
+  <h1>Marlon Reichert</h1>
+  <p class="role">I design instruments for work that a person has to look at for hours without getting it wrong.</p>
+  <ul class="meta">
+    <li><a href="mailto:marlonrreichert@gmail.com">marlonrreichert@gmail.com</a></li>
+    <li><a href="https://github.com/Marlonreic">github.com/Marlonreic</a></li>
+    <li>Portuguese — native · English — advanced</li>
+  </ul>
+  <p class="lede">
+    My day job is classifying vehicles out of recorded traffic video to Brazil's
+    federal standard, lane by lane, in fifteen-minute intervals. It is the kind of
+    work that punishes a bad interface immediately: <strong>look away to read a
+    label and you lose the vehicle.</strong> So I built the interface, and then I
+    built a second system to check my own accuracy against it.
+  </p>
+</header>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">01</span>
+    <h2>A heads-up display for counting traffic</h2>
+  </div>
+  <div class="col">
+    <p class="sub">
+      This is the real thing, rebuilt here at its true size — 360 × 400, sitting
+      at 90% opacity over a video player so the road stays visible underneath.
+      Every colour below is the colour it actually is in the tool, and
+      <strong>every element answers an error I actually made in production</strong>,
+      not a feature idea.
+    </p>
+  </div>
+
+  <div class="stage">
+    <div>
+      <div class="notes">
+        <div class="note">
+          <h3><span class="swatch" style="background:var(--accent)"></span>The active movement is always on screen</h3>
+          <p>
+            At accelerated playback it is easy to lose track of <em>which</em>
+            movement you are counting. Putting it on the panel turns that from
+            something you remember into something you glance at — and a glance costs
+            far less than a recount.
+          </p>
+        </div>
+        <div class="note">
+          <h3><span class="swatch" style="background:#c0c0c0"></span>History is colour-coded</h3>
+          <p>
+            When you rewind thirty seconds to check whether a vehicle was
+            registered, the recount and the history have to line up immediately.
+            Four vehicle families, four fixed hues: once the hue is learned the
+            operator stops reading words. Reading costs a fixation; recognising a
+            colour does not.
+          </p>
+        </div>
+        <div class="note">
+          <h3><span class="swatch" style="background:var(--moto)"></span>The last class registered stays visible</h3>
+          <p>
+            Identical vehicles arrive in runs, and re-deciding a class you just
+            decided is wasted work. Showing the last entry removes the redundant
+            reclassification.
+          </p>
+        </div>
+        <div class="note">
+          <h3><span class="swatch" style="background:var(--warn)"></span>One colour for state, and a line that stays empty</h3>
+          <p>
+            Mode is the only thing that changes what a key means, so it is the only
+            thing allowed to be yellow. Nothing decorative was permitted in the
+            warning line, so when red appears the eye goes straight to it — an
+            always-on status bar would have made errors invisible.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="hud" role="img" aria-label="Reconstruction of the counting HUD: a dark 360 by 400 panel showing the current camera, the active 15-minute interval, the last three entries, the current mode, and four colour-coded vehicle categories.">
+        <div class="hud-cam">&gt;&gt; CÂMERA PRINCIPAL &lt;&lt;</div>
+        <div class="hud-slot" id="slot">08:15 — 08:30</div>
+        <div class="hud-hist">
+          <div class="h1" id="h1">CARRO</div>
+          <div class="h2" id="h2">CARRO</div>
+          <div class="h3" id="h3">CAMINHÃO</div>
+        </div>
+        <div class="hud-mode">&gt;&gt;&gt; MODO 1 &lt;&lt;&lt;</div>
+        <div class="hud-keys">
+          <div class="k-carro"    id="k-carro">[A] - CARRO</div>
+          <div class="k-moto"     id="k-moto">[B] - MOTO</div>
+          <div class="k-onibus"   id="k-onibus">[X] - ÔNIBUS</div>
+          <div class="k-caminhao" id="k-caminhao">[Y] - CAMINHÃO</div>
+        </div>
+        <div class="hud-warn" id="warn"></div>
+      </div>
+      <p class="hud-cap">
+        AutoHotkey v2 over Excel. Always-on-top, click-through, repositionable by
+        hotkey. A second build replaces the keyboard with an Xbox controller, so the
+        hands never leave a resting position across a full shift.
+      </p>
+    </div>
+  </div>
+
+  <div class="figs">
+    <div class="fig"><b>96</b><span>intervals generated per day</span></div>
+    <div class="fig"><b>4</b><span>hues, no icons</span></div>
+    <div class="fig"><b>1 : 1</b><span>work hour per video hour</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">02</span>
+    <h2>Then I built the thing that grades me</h2>
+  </div>
+  <div class="col">
+    <p class="sub">
+      A counting tool that is fast and wrong is worse than a slow one. So the second
+      system is a detector — Python, YOLO, ByteTrack, CUDA — that watches the same
+      footage and disagrees with me on purpose. Every disagreement surfaces in a web
+      review tool as a cropped frame and one decision for a human to make.
+    </p>
+    <p>
+      Behind it sits the part I am most attached to, because nobody asks for it and
+      it is what makes any accuracy claim survive an audit: a reference set of
+      <strong>50,374 vehicles verified by hand across 456 lane-hours</strong>. It is
+      what turns "about 95% accurate" into a number broken out by lane, by hour of
+      day, and by vehicle class — which is where it stops being flattering. The error
+      is not spread evenly. It concentrates in one class, and in the hours of low sun.
+    </p>
+  </div>
+  <div class="figs">
+    <div class="fig"><b>50,374</b><span>vehicles verified by hand</span></div>
+    <div class="fig"><b>456</b><span>lane-hours</span></div>
+    <div class="fig"><b>3</b><span>axes of error reporting</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">03</span>
+    <h2>What a day's average hides</h2>
+  </div>
+  <div class="col">
+    <p class="sub">
+      Twelve lane-hours at one counting point, each one measured against a
+      hand-verified count. The detector's median error across the day is
+      <strong>+13%</strong> — a number you could put in a brochure. The chart is
+      the reason I don't.
+    </p>
+  </div>
+
+  <figure class="chart">
+    <figcaption>
+      Detector error against hand count, by hour of day · counting point P08 ·
+      12 measured lane-hours · shaded band is the ±5% I treat as acceptable ·
+      every point is a logged measurement from my own reference set — nothing here
+      is estimated
+    </figcaption>
+    <div class="chart-scroll">
+      <svg viewBox="0 0 720 372" role="img" width="720"
+           aria-label="Scatter of detector error by hour of day. From 09:00 to 14:00 errors sit between minus 2 and plus 21 percent. At 15:00 one lane-hour falls to minus 53 percent and at 16:00 one falls to minus 99 percent, far below the plus or minus 5 percent acceptance band.">
+        <!-- banda de aceitação ±5% -->
+        <rect x="62" y="85.8" width="614" height="22.3" fill="var(--band)"/>
+        <!-- grade -->
+        <g stroke="var(--edge)" stroke-width="1">
+          <line x1="62" y1="52.3"  x2="676" y2="52.3"/>
+          <line x1="62" y1="141.5" x2="676" y2="141.5"/>
+          <line x1="62" y1="186.2" x2="676" y2="186.2"/>
+          <line x1="62" y1="230.8" x2="676" y2="230.8"/>
+          <line x1="62" y1="275.4" x2="676" y2="275.4"/>
+          <line x1="62" y1="320"   x2="676" y2="320"/>
+        </g>
+        <!-- linha do zero -->
+        <line x1="62" y1="96.9" x2="676" y2="96.9" stroke="var(--ink-3)" stroke-width="2"/>
+        <!-- rótulos do eixo y -->
+        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="10.5"
+           text-anchor="end" style="font-variant-numeric:tabular-nums">
+          <text x="54" y="56">+20%</text>
+          <text x="54" y="100">0</text>
+          <text x="54" y="145">−20%</text>
+          <text x="54" y="190">−40%</text>
+          <text x="54" y="234">−60%</text>
+          <text x="54" y="279">−80%</text>
+          <text x="54" y="323">−100%</text>
+        </g>
+        <!-- rótulos do eixo x -->
+        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="10.5"
+           text-anchor="middle" style="font-variant-numeric:tabular-nums">
+          <text x="80"  y="342">09h</text>
+          <text x="163" y="342">10h</text>
+          <text x="246" y="342">11h</text>
+          <text x="329" y="342">12h</text>
+          <text x="411" y="342">13h</text>
+          <text x="494" y="342">14h</text>
+          <text x="577" y="342">15h</text>
+          <text x="660" y="342">16h</text>
+        </g>
+        <!-- rótulo da banda -->
+        <text x="676" y="80" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace"
+              font-size="10" text-anchor="end">±5% — acceptable</text>
+        <!-- as 12 medições -->
+        <g fill="var(--accent)">
+          <circle cx="80"    cy="88.0"  r="5.5"/>
+          <circle cx="155.9" cy="61.2"  r="5.5"/>
+          <circle cx="169.9" cy="61.2"  r="5.5"/>
+          <circle cx="245.7" cy="101.4" r="5.5"/>
+          <circle cx="328.6" cy="52.3"  r="5.5"/>
+          <circle cx="404.4" cy="74.6"  r="5.5"/>
+          <circle cx="418.4" cy="61.2"  r="5.5"/>
+          <circle cx="494.3" cy="50.1"  r="5.5"/>
+          <circle cx="584.1" cy="61.2"  r="5.5"/>
+          <circle cx="667.0" cy="74.6"  r="5.5"/>
+          <circle cx="570.1" cy="215.2" r="6.5"/>
+          <circle cx="653.0" cy="317.8" r="6.5"/>
+        </g>
+        <!-- rótulos diretos, só nos dois que importam -->
+        <g fill="var(--ink)" font-family="IBM Plex Mono, monospace" font-size="11.5"
+           text-anchor="end" style="font-variant-numeric:tabular-nums">
+          <text x="558" y="219">−53%</text>
+          <text x="641" y="322">−99%</text>
+        </g>
+      </svg>
+    </div>
+  </figure>
+
+  <div class="col">
+    <p>
+      Nothing changes between those points — same detector, same settings, same
+      road. What changes is the sun. From mid-afternoon it comes in low and flat
+      down the carriageway, and the detector starts losing vehicles it had been
+      finding all morning. By 16:00 one lane-hour is missing <strong>99% of the
+      traffic</strong>.
+    </p>
+    <p>
+      Two of twelve lane-hours actually land inside the band. A single daily
+      average would have reported none of this, and I would have shipped it.
+      That is why the reference set is broken out by hour and by class rather
+      than totalled — <strong>an average is a place for an error to hide.</strong>
+    </p>
+  </div>
+
+  <div class="figs">
+    <div class="fig"><b>+13%</b><span>median error, whole day</span></div>
+    <div class="fig"><b>−99%</b><span>worst single lane-hour</span></div>
+    <div class="fig"><b>2 / 12</b><span>lane-hours inside ±5%</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <span class="sec-num">04</span>
+    <h2>How I got here</h2>
+  </div>
+  <ul class="hist">
+    <li>
+      <span class="when">2026 — present</span>
+      <span class="what"><b>Traffic Data Analyst — IMTRAFF</b>
+        <span>Classified counts from video to DNIT IPR 723, by lane and 15-minute
+        interval. Built the data-entry automation and the review tooling the work
+        runs on.</span></span>
+    </li>
+    <li>
+      <span class="when">Jan — Aug 2023</span>
+      <span class="what"><b>Designer &amp; Front-end Developer — LFEX</b>
+        <span>Brand identity and graphic assets for internal and client projects;
+        interfaces and graphic elements in HTML, CSS and JavaScript, alongside
+        marketing and engineering.</span></span>
+    </li>
+    <li>
+      <span class="when">Aug 2021 — Jan 2022</span>
+      <span class="what"><b>Teaching Assistant — Universidade Franciscana</b>
+        <span>Computing and design coursework; prepared exercises and reviewed
+        student work against defined criteria.</span></span>
+    </li>
+    <li>
+      <span class="when">Award</span>
+      <span class="what"><b>Best Game of the Event</b>
+        <span>Academic game development event — recognised for innovation, design
+        and technical execution. Digital Games coursework, Universidade Franciscana.</span></span>
+    </li>
+  </ul>
+  <ul class="skills">
+    <li>Photoshop</li><li>Illustrator</li><li>After Effects</li><li>UI/UX</li>
+    <li>HTML / CSS / JavaScript</li><li>Python</li><li>Excel / VBA</li>
+    <li>AutoHotkey v2</li><li>YOLO</li><li>ByteTrack</li><li>OpenCV</li><li>CUDA</li>
+  </ul>
+</section>
+
+<footer>
+  <p><a href="mailto:marlonrreichert@gmail.com">marlonrreichert@gmail.com</a></p>
+  <p><a href="https://github.com/Marlonreic">github.com/Marlonreic</a></p>
+  <p>Florianópolis, Brazil — remote, UTC−3</p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce) return;
+
+  var CATS = [
+    {nome:"CARRO",    id:"k-carro"},
+    {nome:"CARRO",    id:"k-carro"},
+    {nome:"MOTO",     id:"k-moto"},
+    {nome:"CARRO",    id:"k-carro"},
+    {nome:"CAMINHÃO", id:"k-caminhao"},
+    {nome:"CARRO",    id:"k-carro"},
+    {nome:"ÔNIBUS",   id:"k-onibus"},
+    {nome:"CARRO",    id:"k-carro"},
+    {nome:"MOTO",     id:"k-moto"},
+    {nome:"CAMINHÃO", id:"k-caminhao"}
+  ];
+  var h1 = document.getElementById("h1"),
+      h2 = document.getElementById("h2"),
+      h3 = document.getElementById("h3"),
+      i  = 0;
+
+  function tick(){
+    var c = CATS[i % CATS.length];
+    h1.textContent = h2.textContent;
+    h2.textContent = h3.textContent;
+    h3.textContent = c.nome;
+    var k = document.getElementById(c.id);
+    if (k){
+      k.classList.add("hit");
+      setTimeout(function(){ k.classList.remove("hit"); }, 190);
+    }
+    i++;
+  }
+  setInterval(tick, 2200);
+})();
+</script>
+
+</body>
+</html>
