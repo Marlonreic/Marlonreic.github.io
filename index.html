@@ -205,6 +205,28 @@ p{margin:16px 0 0}
   background:var(--panel);
 }
 
+/* ------------------------------------------------- tabela e nota de rodapé */
+.tab{
+  border-collapse:collapse; margin:26px 0 0; min-width:420px;
+  font-size:14px; font-variant-numeric:tabular-nums;
+}
+.tab th,.tab td{
+  text-align:right; padding:10px 22px 10px 0; border-bottom:1px solid var(--edge);
+  white-space:nowrap;
+}
+.tab th:first-child,.tab td:first-child{text-align:left; padding-right:34px}
+.tab thead th{
+  font-family:"IBM Plex Mono",ui-monospace,monospace; font-size:10.5px;
+  letter-spacing:.09em; text-transform:uppercase; color:var(--ink-3);
+  font-weight:400; border-bottom-color:var(--ink-3);
+}
+.tab tbody tr:first-child td{color:var(--ink); font-weight:600}
+.tab tbody td{color:var(--ink-2)}
+.aside{
+  font-size:14px; color:var(--ink-3); border-left:2px solid var(--edge);
+  padding-left:18px; margin-top:30px;
+}
+
 /* ------------------------------------------------------------- gráfico */
 .chart{margin:34px 0 0; padding:0}
 .chart figcaption{
@@ -368,86 +390,96 @@ footer a:hover,footer a:focus-visible{border-color:var(--accent)}
 <section>
   <div class="sec-head">
     <span class="sec-num">03</span>
-    <h2>What a day's average hides</h2>
+    <h2>Why the reference set is kept per lane-hour</h2>
   </div>
   <div class="col">
     <p class="sub">
-      Twelve lane-hours at one counting point, each one measured against a
-      hand-verified count. The detector's median error across the day is
-      <strong>+13%</strong> — a number you could put in a brochure. The chart is
-      the reason I don't.
+      Twelve lane-hours at one counting point, each one measured against a hand
+      count. Pool them and the detector's mean error is <strong>&minus;2%</strong>
+      — a number I could put in a brochure. Split them by how the road was
+      configured and the &minus;2% turns out to describe neither half.
     </p>
   </div>
 
   <figure class="chart">
     <figcaption>
-      Detector error against hand count, by hour of day · counting point P08 ·
-      12 measured lane-hours · shaded band is the ±5% I treat as acceptable ·
-      every point is a logged measurement from my own reference set — nothing here
-      is estimated
+      Detector error against hand count, by hour of day &middot; counting point
+      P08, July 2026 &middot; two jobs, same axis &middot; every point is a
+      logged measurement from my own reference set
     </figcaption>
     <div class="chart-scroll">
-      <svg viewBox="0 0 720 372" role="img" width="720"
-           aria-label="Scatter of detector error by hour of day. From 09:00 to 14:00 errors sit between minus 2 and plus 21 percent. At 15:00 one lane-hour falls to minus 53 percent and at 16:00 one falls to minus 99 percent, far below the plus or minus 5 percent acceptance band.">
-        <!-- banda de aceitação ±5% -->
-        <rect x="62" y="85.8" width="614" height="22.3" fill="var(--band)"/>
-        <!-- grade -->
-        <g stroke="var(--edge)" stroke-width="1">
-          <line x1="62" y1="52.3"  x2="676" y2="52.3"/>
-          <line x1="62" y1="141.5" x2="676" y2="141.5"/>
-          <line x1="62" y1="186.2" x2="676" y2="186.2"/>
-          <line x1="62" y1="230.8" x2="676" y2="230.8"/>
-          <line x1="62" y1="275.4" x2="676" y2="275.4"/>
-          <line x1="62" y1="320"   x2="676" y2="320"/>
-        </g>
-        <!-- linha do zero -->
-        <line x1="62" y1="96.9" x2="676" y2="96.9" stroke="var(--ink-3)" stroke-width="2"/>
-        <!-- rótulos do eixo y -->
-        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="10.5"
-           text-anchor="end" style="font-variant-numeric:tabular-nums">
-          <text x="54" y="56">+20%</text>
-          <text x="54" y="100">0</text>
-          <text x="54" y="145">−20%</text>
-          <text x="54" y="190">−40%</text>
-          <text x="54" y="234">−60%</text>
-          <text x="54" y="279">−80%</text>
-          <text x="54" y="323">−100%</text>
-        </g>
-        <!-- rótulos do eixo x -->
-        <g fill="var(--ink-3)" font-family="IBM Plex Mono, monospace" font-size="10.5"
-           text-anchor="middle" style="font-variant-numeric:tabular-nums">
-          <text x="80"  y="342">09h</text>
-          <text x="163" y="342">10h</text>
-          <text x="246" y="342">11h</text>
-          <text x="329" y="342">12h</text>
-          <text x="411" y="342">13h</text>
-          <text x="494" y="342">14h</text>
-          <text x="577" y="342">15h</text>
-          <text x="660" y="342">16h</text>
-        </g>
-        <!-- rótulo da banda -->
-        <text x="676" y="80" fill="var(--ink-3)" font-family="IBM Plex Mono, monospace"
-              font-size="10" text-anchor="end">±5% — acceptable</text>
-        <!-- as 12 medições -->
-        <g fill="var(--accent)">
-          <circle cx="80"    cy="88.0"  r="5.5"/>
-          <circle cx="155.9" cy="61.2"  r="5.5"/>
-          <circle cx="169.9" cy="61.2"  r="5.5"/>
-          <circle cx="245.7" cy="101.4" r="5.5"/>
-          <circle cx="328.6" cy="52.3"  r="5.5"/>
-          <circle cx="404.4" cy="74.6"  r="5.5"/>
-          <circle cx="418.4" cy="61.2"  r="5.5"/>
-          <circle cx="494.3" cy="50.1"  r="5.5"/>
-          <circle cx="584.1" cy="61.2"  r="5.5"/>
-          <circle cx="667.0" cy="74.6"  r="5.5"/>
-          <circle cx="570.1" cy="215.2" r="6.5"/>
-          <circle cx="653.0" cy="317.8" r="6.5"/>
-        </g>
-        <!-- rótulos diretos, só nos dois que importam -->
-        <g fill="var(--ink)" font-family="IBM Plex Mono, monospace" font-size="11.5"
-           text-anchor="end" style="font-variant-numeric:tabular-nums">
-          <text x="558" y="219">−53%</text>
-          <text x="641" y="322">−99%</text>
+      <svg viewBox="0 0 720 300" role="img" width="720"
+           aria-label="Two panels on a shared axis. The single-carriageway job's seven lane-hours all sit between minus 2 and plus 20 percent. The dual-carriageway job has three lane-hours in the same range and two that fall to minus 53 and minus 99 percent.">
+        <g font-family="IBM Plex Mono, monospace">
+          <!-- titulos dos paineis -->
+          <text x="60"  y="15" fill="var(--ink)" font-size="11.5">Single carriageway &middot; 7 lane-hours</text>
+          <text x="405" y="15" fill="var(--ink)" font-size="11.5">Dual carriageway &middot; 5 lane-hours</text>
+
+          <!-- grade, identica nos dois paineis -->
+          <g stroke="var(--edge)" stroke-width="1">
+            <line x1="52" y1="46.1"  x2="348" y2="46.1"/>
+            <line x1="52" y1="118.3" x2="348" y2="118.3"/>
+            <line x1="52" y1="154.4" x2="348" y2="154.4"/>
+            <line x1="52" y1="190.5" x2="348" y2="190.5"/>
+            <line x1="52" y1="226.6" x2="348" y2="226.6"/>
+            <line x1="52" y1="262.7" x2="348" y2="262.7"/>
+            <line x1="397" y1="46.1"  x2="693" y2="46.1"/>
+            <line x1="397" y1="118.3" x2="693" y2="118.3"/>
+            <line x1="397" y1="154.4" x2="693" y2="154.4"/>
+            <line x1="397" y1="190.5" x2="693" y2="190.5"/>
+            <line x1="397" y1="226.6" x2="693" y2="226.6"/>
+            <line x1="397" y1="262.7" x2="693" y2="262.7"/>
+          </g>
+          <!-- linha do zero -->
+          <g stroke="var(--ink-3)" stroke-width="1.5">
+            <line x1="52" y1="82.2" x2="348" y2="82.2"/>
+            <line x1="397" y1="82.2" x2="693" y2="82.2"/>
+          </g>
+
+          <!-- eixo y, rotulado uma vez so (convencao de small multiples) -->
+          <g fill="var(--ink-3)" font-size="10" text-anchor="end"
+             style="font-variant-numeric:tabular-nums">
+            <text x="46" y="50">+20%</text>
+            <text x="46" y="86">0</text>
+            <text x="46" y="122">&minus;20%</text>
+            <text x="46" y="158">&minus;40%</text>
+            <text x="46" y="194">&minus;60%</text>
+            <text x="46" y="230">&minus;80%</text>
+            <text x="46" y="266">&minus;100%</text>
+          </g>
+          <!-- eixo x -->
+          <g fill="var(--ink-3)" font-size="10" text-anchor="middle"
+             style="font-variant-numeric:tabular-nums">
+            <text x="60"  y="288">09h</text><text x="140" y="288">11h</text>
+            <text x="220" y="288">13h</text><text x="300" y="288">15h</text>
+            <text x="405" y="288">09h</text><text x="485" y="288">11h</text>
+            <text x="565" y="288">13h</text><text x="645" y="288">15h</text>
+          </g>
+
+          <!-- pista simples: 7 medicoes -->
+          <g fill="var(--accent)">
+            <circle cx="60"  cy="74.9" r="4.5"/>
+            <circle cx="100" cy="53.3" r="4.5"/>
+            <circle cx="140" cy="85.8" r="4.5"/>
+            <circle cx="180" cy="46.1" r="4.5"/>
+            <circle cx="220" cy="64.1" r="4.5"/>
+            <circle cx="300" cy="53.3" r="4.5"/>
+            <circle cx="340" cy="64.1" r="4.5"/>
+          </g>
+          <!-- pista dupla: 5 medicoes -->
+          <g fill="var(--accent)">
+            <circle cx="445" cy="53.3" r="4.5"/>
+            <circle cx="565" cy="53.3" r="4.5"/>
+            <circle cx="605" cy="44.3" r="4.5"/>
+            <circle cx="645" cy="178.0" r="5.5"/>
+            <circle cx="685" cy="261.2" r="5.5"/>
+          </g>
+          <!-- rotulo direto so nos dois que importam -->
+          <g fill="var(--ink)" font-size="11" text-anchor="end"
+             style="font-variant-numeric:tabular-nums">
+            <text x="634" y="182">&minus;53%</text>
+            <text x="674" y="265">&minus;99%</text>
+          </g>
         </g>
       </svg>
     </div>
@@ -455,24 +487,43 @@ footer a:hover,footer a:focus-visible{border-color:var(--accent)}
 
   <div class="col">
     <p>
-      Nothing changes between those points — same detector, same settings, same
-      road. What changes is the sun. From mid-afternoon it comes in low and flat
-      down the carriageway, and the detector starts losing vehicles it had been
-      finding all morning. By 16:00 one lane-hour is missing <strong>99% of the
-      traffic</strong>.
+      The two jobs cover the same counting point and overlap in time. At 15:30
+      the single-carriageway job reads <strong>+16%</strong> and the
+      dual-carriageway job reads <strong>&minus;53%</strong> — same half hour,
+      same road. Whatever is wrong is not the light. It is the geometry: a dual
+      carriageway needs one counting line per carriageway, and a line that misses
+      one of them loses a whole direction of traffic.
     </p>
     <p>
-      Two of twelve lane-hours actually land inside the band. A single daily
-      average would have reported none of this, and I would have shipped it.
-      That is why the reference set is broken out by hour and by class rather
-      than totalled — <strong>an average is a place for an error to hide.</strong>
+      Splitting is still not enough. The dual-carriageway job's own median is
+      <strong>+16%</strong> — three of its five lane-hours are fine, and the
+      median never notices the other two. Only the individual lane-hours show
+      them. That is why the reference set is stored per lane-hour and never
+      rolled up: <strong>an average at any level above that is somewhere for a
+      failure to hide.</strong>
     </p>
   </div>
 
-  <div class="figs">
-    <div class="fig"><b>+13%</b><span>median error, whole day</span></div>
-    <div class="fig"><b>−99%</b><span>worst single lane-hour</span></div>
-    <div class="fig"><b>2 / 12</b><span>lane-hours inside ±5%</span></div>
+  <div class="chart-scroll">
+    <table class="tab">
+      <thead>
+        <tr><th></th><th>lane-hours</th><th>mean error</th><th>median</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Pooled</td><td>12</td><td>&minus;2%</td><td>+13%</td></tr>
+        <tr><td>Single carriageway</td><td>7</td><td>+11%</td><td>+10%</td></tr>
+        <tr><td>Dual carriageway</td><td>5</td><td>&minus;20%</td><td>+16%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col">
+    <p class="aside">
+      The textbook chart for comparing an automated method against a reference is
+      a Bland&ndash;Altman plot. With twelve pairs it would be theatre — the
+      convention is forty or more before limits of agreement carry any meaning.
+      Twelve measurements get shown as twelve measurements.
+    </p>
   </div>
 </section>
 
